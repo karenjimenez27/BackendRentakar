@@ -18,6 +18,7 @@ import {
   requestBody,
   response,
 } from '@loopback/rest';
+import {Llaves} from '../config/llaves';
 import {Asesor} from '../models';
 import {AsesorRepository} from '../repositories';
 import {AutenticacionService} from '../services/autenticacion.service';
@@ -58,7 +59,7 @@ export class AsesorController {
     let destino = asesor.correo;
     let asunto = 'Registro en la plataforma';
     let contenido = `Hola ${asesor.nombre}, su nombre de usuario es: ${asesor.correo}, y su contraseña es: ${asesor.clave};`
-    fetch(`http://127.0.0.1:5000/envio_correos?correo_destino=${destino}&asunto=${asunto}&contenido=${contenido}`)
+    fetch(`${Llaves.urlServicioNotificaciones}/envio_correos?correo_destino=${destino}&asunto=${asunto}&contenido=${contenido}`)
     .then((data:any)=>{
       console.log(data);
     })

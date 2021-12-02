@@ -13,6 +13,7 @@ import {
   getModelSchemaRef, param, patch, post, put, requestBody,
   response
 } from '@loopback/rest';
+import {Llaves} from '../config/llaves';
 import {Administrador} from '../models';
 import {AdministradorRepository} from '../repositories';
 import {AutenticacionService} from '../services/autenticacion.service';
@@ -55,7 +56,7 @@ export class AdministradorController {
     let destino = administrador.correo;
     let asunto = 'Registro en la plataforma';
     let contenido = `Hola ${administrador.nombre}, su nombre de usuario es: ${administrador.correo}, y su contraseña es: ${administrador.clave};`
-    fetch(`http://127.0.0.1:5000/envio_correos?correo_destino=${destino}&asunto=${asunto}&contenido=${contenido}`)
+    fetch(`${Llaves.urlServicioNotificaciones}/envio_correos?correo_destino=${destino}&asunto=${asunto}&contenido=${contenido}`)
     .then((data:any)=>{
       console.log(data);
     })
