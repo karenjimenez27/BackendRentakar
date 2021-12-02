@@ -1,10 +1,11 @@
 import {inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
 import {juggler} from '@loopback/repository';
 
+
 const config = {
   name: 'mongodb',
   connector: 'mongodb',
-  url: 'mongodb+srv://grupoa:<grupoa>@clusterrentakar.hhhuz.mongodb.net/RentakarDB?retryWrites=true&w=majority',
+  url: 'mongodb+srv://kacoka:kacoka@proyectorentakar.sxltr.mongodb.net/RentakarDB?retryWrites=true&w=majority',
   host: '',
   port: 0,
   user: '',
