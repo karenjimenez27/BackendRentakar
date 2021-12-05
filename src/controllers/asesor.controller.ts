@@ -17,12 +17,14 @@ import {
   del,
   requestBody,
   response,
+  HttpErrors,
 } from '@loopback/rest';
 import {Llaves} from '../config/llaves';
-import {Asesor} from '../models';
+import {Asesor, Credenciales} from '../models';
 import {AsesorRepository} from '../repositories';
 import {AutenticacionService} from '../services/autenticacion.service';
 const fetch = require('node-fetch');
+//import fetch from 'node-fetch';
 
 export class AsesorController {
   constructor(
@@ -31,6 +33,35 @@ export class AsesorController {
     @service(AutenticacionService)
     public servicioAutenticacion: AutenticacionService
   ) {}
+
+  @post("/identificarAsesor", {
+    responses:{
+      '200':{
+        description:"Identificación de usuarios"
+      }
+    }
+  })
+  async identificarAsesor(
+    @requestBody() credenciales:Credenciales
+  ){
+    let as = await this.servicioAutenticacion.IdentificarAsesor(credenciales.usuario, credenciales.clave);
+    if(as) {
+      let token = this.servicioAutenticacion.GenerarTokenJWTAsesor(as);
+      return{
+        datos: {
+          nombre: as.nombre,
+          correo: as.correo,
+          id: as.id
+        },
+        tk: token
+      }
+
+    }else{
+      throw new HttpErrors[401]("Datos inválidos");
+    }
+
+  }
+
 
   @post('/asesors')
   @response(200, {

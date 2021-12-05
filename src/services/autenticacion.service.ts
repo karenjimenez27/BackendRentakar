@@ -1,8 +1,8 @@
 import { /* inject, */ BindingScope, injectable} from '@loopback/core';
 import {repository} from '@loopback/repository';
+import {Llaves} from '../config/llaves';
 import {Administrador, Asesor, Cliente} from '../models';
 import {AdministradorRepository, AsesorRepository, ClienteRepository} from '../repositories';
-import { Llaves } from '../config/llaves';
 
 const generator = require("password-generator");
 const cryptoJS = require("crypto-js");
@@ -36,72 +36,83 @@ export class AutenticacionService {
     return claveCifrada;
   }
 
-  IdentificarAdministrdor(usuario: string, clave: string){
-    try{
-      let p= this.administradorRepository.findOne({where: {correo: usuario, clave: clave}})
-      if(p){
+  IdentificarAdministrdor(usuario: string, clave: string) {
+    try {
+      let p = this.administradorRepository.findOne({where: {correo: usuario, clave: clave}})
+      if (p) {
         return p
       }
       return false;
-    }catch{
+    } catch {
       return false;
     }
   }
 
-  IdentificarAsesor(usuario: string, clave: string){
-    try{
-      let p= this.asesorRepository.findOne({where: {correo: usuario, clave: clave}})
-      if(p){
+  IdentificarAsesor(usuario: string, clave: string) {
+    try {
+      let p = this.asesorRepository.findOne({where: {correo: usuario, clave: clave}})
+      if (p) {
         return p
       }
       return false;
-    }catch{
+    } catch {
       return false;
     }
   }
 
-  IdentificarCliente(usuario: string, clave: string){
-    try{
-      let p= this.clienteRepository.findOne({where: {correo: usuario, clave: clave}})
-      if(p){
+  IdentificarCliente(usuario: string, clave: string) {
+    try {
+      let p = this.clienteRepository.findOne({where: {correo: usuario, clave: clave}})
+      if (p) {
         return p
       }
       return false;
-    }catch{
+    } catch {
       return false;
     }
   }
 
-  GenerarTokenJWTAdmin(administrador: Administrador){
+  GenerarTokenJWTAdmin(administrador: Administrador) {
     let token = jwt.sign({
-      data:{
+      data: {
         id: administrador.id,
         correo: administrador.correo,
-        nombre: administrador.nombre + " "+ administrador.apellido
+        nombre: administrador.nombre + " " + administrador.apellido
       }
     },
-    Llaves.claveJWT)
+      Llaves.claveJWT)
+      return token;
   }
 
-  GenerarTokenJWTAsesor(asesor: Asesor){
+  GenerarTokenJWTAsesor(asesor: Asesor) {
     let token = jwt.sign({
-      data:{
+      data: {
         id: asesor.id,
         correo: asesor.correo,
-        nombre: asesor.nombre + " "+ asesor.apellido
+        nombre: asesor.nombre + " " + asesor.apellido
       }
     },
-    Llaves.claveJWT)
+      Llaves.claveJWT)
   }
 
-  GenerarTokenJWTCliente(cliente: Cliente){
+  GenerarTokenJWTCliente(cliente: Cliente) {
     let token = jwt.sign({
-      data:{
+      data: {
         id: cliente.id,
         correo: cliente.correo,
-        nombre: cliente.nombre + " "+ cliente.apellido
+        nombre: cliente.nombre + " " + cliente.apellido
       }
     },
-    Llaves.claveJWT)
+      Llaves.claveJWT)
+  }
+
+
+  ValidarTokenJWT(token: string) {
+    try {
+      let datos = jwt.verify(token, Llaves.claveJWT);
+      return datos;
+    } catch {
+      return false;
+    }
   }
 }

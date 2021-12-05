@@ -23,6 +23,7 @@ import {Cliente} from '../models';
 import {ClienteRepository} from '../repositories';
 import {AutenticacionService} from '../services/autenticacion.service';
 const fetch = require('node-fetch');
+//import fetch from 'node-fetch';
 
 export class ClienteController {
   constructor(
