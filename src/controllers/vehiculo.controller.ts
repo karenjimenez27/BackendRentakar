@@ -19,12 +19,15 @@ import {
 } from '@loopback/rest';
 import {Vehiculo} from '../models';
 import {VehiculoRepository} from '../repositories';
+import { authenticate } from '@loopback/authentication';
 
+@authenticate("admin")
 export class VehiculoController {
   constructor(
     @repository(VehiculoRepository)
     public vehiculoRepository : VehiculoRepository,
   ) {}
+
 
   @post('/vehiculos')
   @response(200, {
@@ -47,6 +50,7 @@ export class VehiculoController {
     return this.vehiculoRepository.create(vehiculo);
   }
 
+  @authenticate.skip()
   @get('/vehiculos/count')
   @response(200, {
     description: 'Vehiculo model count',
@@ -58,6 +62,7 @@ export class VehiculoController {
     return this.vehiculoRepository.count(where);
   }
 
+  @authenticate.skip()
   @get('/vehiculos')
   @response(200, {
     description: 'Array of Vehiculo model instances',

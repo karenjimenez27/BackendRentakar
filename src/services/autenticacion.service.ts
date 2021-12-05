@@ -36,7 +36,7 @@ export class AutenticacionService {
     return claveCifrada;
   }
 
-  IdentificarAdministrdor(usuario: string, clave: string) {
+  IdentificarAdministrador(usuario: string, clave: string) {
     try {
       let p = this.administradorRepository.findOne({where: {correo: usuario, clave: clave}})
       if (p) {

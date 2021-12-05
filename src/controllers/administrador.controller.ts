@@ -39,7 +39,7 @@ export class AdministradorController {
   async identificarAdministrador(
     @requestBody() credenciales:Credenciales
   ){
-    let ad = await this.servicioAutenticacion.IdentificarAdministrdor(credenciales.usuario, credenciales.clave);
+    let ad = await this.servicioAutenticacion.IdentificarAdministrador(credenciales.usuario, credenciales.clave);
     if(ad) {
       let token = this.servicioAutenticacion.GenerarTokenJWTAdmin(ad);
       return{
